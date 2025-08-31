@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 const SCHOOL_SUGGESTIONS_API_URL = import.meta.env.VITE_SCHOOL_SUGGESTIONS_API;
 
 export default function AdminApproval() {
@@ -57,13 +58,7 @@ export default function AdminApproval() {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!loading && !error && suggestions.length === 0 && <p>No suggestions found.</p>}
       {!loading && suggestions.length > 0 && (
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            marginTop: 20,
-          }}
-        >
+        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 20 }}>
           <thead>
             <tr style={{ backgroundColor: "#f0f0f0" }}>
               <th style={Style}>Name</th>
@@ -77,28 +72,22 @@ export default function AdminApproval() {
           <tbody>
             {suggestions.map((s) => (
               <tr key={s._id} style={{ borderBottom: "1px solid #ddd" }}>
-                <td style={Style}>{s.name}</td>
-                <td style={Style}>{s.address}</td>
-                <td style={Style}>{s.tags.join(", ")}</td>
-                <td style={Style}>
+                <td style={tdStyle}>{s.name}</td>
+                <td style={tdStyle}>{s.address}</td>
+                <td style={tdStyle}>{s.tags.join(", ")}</td>
+                <td style={tdStyle}>
                   <strong style={{ color: s.status === "approved" ? "green" : "orange" }}>
                     {s.status}
                   </strong>
                 </td>
-                <td style={Style}>{new Date(s.suggestedAt).toLocaleString()}</td>
-                <td style={Style}>
+                <td style={tdStyle}>{new Date(s.suggestedAt).toLocaleString()}</td>
+                <td style={tdStyle}>
                   {s.status !== "approved" && (
-                    <button
-                      onClick={() => handleApprove(s._id)}
-                      style={buttonStyleApprove}
-                    >
+                    <button onClick={() => handleApprove(s._id)} style={buttonStyleApprove}>
                       Approve
                     </button>
                   )}
-                  <button
-                    onClick={() => handleDelete(s._id)}
-                    style={buttonStyleDelete}
-                  >
+                  <button onClick={() => handleDelete(s._id)} style={buttonStyleDelete}>
                     Delete
                   </button>
                 </td>

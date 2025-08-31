@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 const SCHOOLS_SUGGESTIONS_API_URL = import.meta.env.VITE_SCHOOL_SUGGESTIONS_API;
+
 export default function SuggestSchoolForm() {
   const [suggestedSchool, setSuggestedSchool] = useState({
     name: "",
@@ -8,12 +9,17 @@ export default function SuggestSchoolForm() {
     tags: ""
   });
 
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null); 
+
   const handleChange = (e) => {
     setSuggestedSchool({ ...suggestedSchool, [e.target.name]: e.target.value });
   };
 
   const handleSuggest = async (e) => {
     e.preventDefault();
+    setLoading(true); 
+    setError(null);
 
     const suggestionToSend = {
       name: suggestedSchool.name,
@@ -23,14 +29,14 @@ export default function SuggestSchoolForm() {
         .split(",")
         .map((t) => t.trim())
         .filter((t) => t),
-      status: "pending" 
+      status: "pending",
     };
 
     try {
       const res = await fetch(SCHOOLS_SUGGESTIONS_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(suggestionToSend)
+        body: JSON.stringify(suggestionToSend),
       });
 
       if (!res.ok) throw new Error("Failed to submit suggestion");
@@ -39,13 +45,26 @@ export default function SuggestSchoolForm() {
       setSuggestedSchool({ name: "", address: "", image: "", tags: "" });
     } catch (err) {
       console.error(err);
-      alert("An error occurred. Please try again later.");
+      setError("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
-    <div style={{ maxWidth: 900, margin: "40px auto", padding: "20px", backgroundColor: "#f9f9f9", borderRadius: 8 }}>
+    <div
+      style={{
+        maxWidth: 900,
+        margin: "40px auto",
+        padding: "20px",
+        backgroundColor: "#f9f9f9",
+        borderRadius: 8,
+      }}
+    >
       <h2 style={{ marginBottom: 20 }}>Suggest a School</h2>
+      {error && (
+        <p style={{ color: "red", fontWeight: "600" }}>{error}</p>
+      )}
       <form onSubmit={handleSuggest}>
         <input
           type="text"
@@ -83,18 +102,10 @@ export default function SuggestSchoolForm() {
         />
         <button
           type="submit"
-          style={{
-            padding: "14px 40px",
-            fontSize: 16,
-            borderRadius: 6,
-            border: "none",
-            backgroundColor: "#DC2626",
-            color: "#fff",
-            cursor: "pointer",
-            fontWeight: "600"
-          }}
+          style={submitButtonStyle}
+          disabled={loading} 
         >
-          Submit Suggestion
+          {loading ? "Submitting..." : "Submit Suggestion"}
         </button>
       </form>
     </div>
@@ -108,5 +119,16 @@ const inputStyle = {
   fontSize: 16,
   borderRadius: 6,
   border: "1px solid #ccc",
-  outline: "none"
+  outline: "none",
+};
+
+const submitButtonStyle = {
+  padding: "14px 40px",
+  fontSize: 16,
+  borderRadius: 6,
+  border: "none",
+  backgroundColor: "#DC2626",
+  color: "#fff",
+  cursor: "pointer",
+  fontWeight: "600",
 };

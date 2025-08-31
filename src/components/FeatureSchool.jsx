@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function FeatureSchool() {
-  const [tuition, setTuitions] = useState([]);
+  const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5001/schoolsapi")
+    fetch(`${API_URL}/schoolsapi`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -14,7 +16,7 @@ export default function FeatureSchool() {
         return res.json();
       })
       .then((data) => {
-        setTuitions(data);
+        setSchools(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -24,7 +26,7 @@ export default function FeatureSchool() {
       });
   }, []);
 
-  const featuredSchools = tuition.slice(0, 9); 
+  const featuredSchools = schools.slice(0, 9);
 
   return (
     <section className="feature-schools">
@@ -39,7 +41,7 @@ export default function FeatureSchool() {
             <div className="school-name">{school.name}</div>
           </div>
         ))}
-        {!loading && !error && tuition.length > 9 && (
+        {!loading && !error && schools.length > 9 && (
           <div className="browse-card">
             <div className="browse-schools">Browse More</div>
           </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 const TUITIONS_API_URL = import.meta.env.VITE_TUITIONS_API;
+
 export default function BeyondSchool() {
   const [tuitions, setTuitions] = useState([]);
   const [loading, setLoading] = useState(true);
