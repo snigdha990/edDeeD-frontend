@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function FeatureSchool() {
@@ -7,24 +7,43 @@ export default function FeatureSchool() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // useEffect(() => {
+  //   fetch(`${API_URL}/schoolsapi`,{ cache: "no-store" })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setSchools(data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error Fetching data:", err);
+  //       setError("Failed to load schools.");
+  //       setLoading(false);
+  //     });
+  // }, []);
   useEffect(() => {
-    fetch(`${API_URL}/schoolsapi`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setSchools(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error Fetching data:", err);
-        setError("Failed to load schools.");
-        setLoading(false);
-      });
-  }, []);
+  // fetch(`${API_URL}/schoolsapi`, { cache: "no-store" })
+  fetch(`${API_URL}/schoolsapi`, { cache: "no-store" })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .then((data) => {
+      setSchools(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error Fetching data:", err);
+      setError("Failed to load schools.");
+      setLoading(false);
+    });
+}, []);
 
   const featuredSchools = schools.slice(0, 9);
 
@@ -43,7 +62,7 @@ export default function FeatureSchool() {
         ))}
         {!loading && !error && schools.length > 9 && (
           <div className="browse-card">
-            <div className="browse-schools">Browse More</div>
+            <Link to="/schools" className="browse-schools">Browse More</Link>
           </div>
         )}
       </div>

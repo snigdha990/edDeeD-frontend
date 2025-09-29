@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-
-const TUITIONS_API_URL = import.meta.env.VITE_TUITIONS_API;
-
+import { Link } from "react-router-dom";
+// const TUITIONS_API_URL = import.meta.env.VITE_TUITIONS_API;
+const TUITIONS_API_URL = import.meta.env.VITE_TUITIONS_API ||"http://localhost:8080/api/tuitions";
 export default function BeyondSchool() {
   const [tuitions, setTuitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(TUITIONS_API_URL)
+    fetch(TUITIONS_API_URL, { cache: "no-store" })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -25,7 +25,7 @@ export default function BeyondSchool() {
         setLoading(false);
       });
   }, []);
-
+     
   return (
     <section className="feature-schools">
       <h2>Beyond Schools</h2>
@@ -46,11 +46,11 @@ export default function BeyondSchool() {
               </div>
             ) : null
           )}
-        {!loading && !error && tuitions.length > 0 && (
           <div className="browse-card">
-            <div className="browse-schools">Browse More</div>
+            <Link to="/beyond-school" className="browse-schools">
+              Browse More
+          </Link>
           </div>
-        )}
       </div>
     </section>
   );

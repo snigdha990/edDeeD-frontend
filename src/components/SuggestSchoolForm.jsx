@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "./Footer";
 const SCHOOLS_SUGGESTIONS_API_URL = import.meta.env.VITE_SCHOOL_SUGGESTIONS_API;
 
 export default function SuggestSchoolForm() {
@@ -52,7 +54,9 @@ export default function SuggestSchoolForm() {
   };
 
   return (
-    <div
+    <>
+      <Navbar />
+      <div
       style={{
         maxWidth: 900,
         margin: "40px auto",
@@ -109,6 +113,8 @@ export default function SuggestSchoolForm() {
         </button>
       </form>
     </div>
+    <Footer />
+    </>
   );
 }
 

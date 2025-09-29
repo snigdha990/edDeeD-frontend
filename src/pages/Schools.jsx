@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 const SCHOOLS_API_URL = import.meta.env.VITE_SCHOOLS_API;
 const SCHOOLS_SUGGESTIONS_API_URL = import.meta.env.VITE_SCHOOL_SUGGESTIONS_API;
 
@@ -96,7 +97,9 @@ export default function Schools() {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: "auto", padding: 20, fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+    <>
+      <Navbar />
+       <div style={{ maxWidth: 1200, margin: "auto", padding: 20, fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
       <h2 style={{ textAlign: "center", marginBottom: 20, fontWeight: "600" }}>Search by Location / School Name</h2>
       <div style={{ display: "flex", gap: 20, marginBottom: 20 }}>
         <div className="search-bar" style={{ flex: 1, display: "flex", alignItems: "center", borderRadius: 30, backgroundColor: "#fff", boxShadow: "0 2px 8px rgb(0 0 0 / 0.08)", padding: "10px 20px", fontSize: 16, color: "#666" }}>
@@ -172,6 +175,7 @@ export default function Schools() {
       </div>
       <hr style={{ margin: "40px 0" }} />
     </div>
+    </>
   );
 }
 
